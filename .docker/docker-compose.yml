@@ -1,0 +1,25 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ./volume:/var/lib/rabbitmq/
+        - ./volume:/var/log/rabbitmq
+    healthcheck:
+      test:  ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      retries: 5
+      timeout: 3s
+
+  paymenmt-service:
+    restart: always
+    build: ../payment-service
+    environment:
+      - RABBIT_MQ_HOST=rabbitmq
+    ports:
+      - 8080:8080
+    depends_on:
+      rabbitmq: 
+        condition: service_healthy
