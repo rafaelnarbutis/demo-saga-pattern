@@ -36,12 +36,12 @@ func InitConfig() {
 	failOnError(err, "Failed to open a channel")
 
 	q, err := ch.QueueDeclare(
-		"payment-queue", // name
-		false,           // durable
-		false,           // delete when unused
-		false,           // exclusive
-		false,           // no-wait
-		nil,             // arguments
+		"notebook-bought-queue", // name
+		false,                   // durable
+		false,                   // delete when unused
+		false,                   // exclusive
+		false,                   // no-wait
+		nil,                     // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 
